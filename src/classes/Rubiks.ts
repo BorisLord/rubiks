@@ -1,28 +1,29 @@
-import * as BABYLON from "@babylonjs/core";
+import { ArcRotateCamera, Color3, Engine, HemisphericLight, MeshBuilder, Scene, StandardMaterial, Vector3 } from "@babylonjs/core"
+
 
 export default class Rubiks {
-    public static CreateScene(engine: BABYLON.Engine, canvas: HTMLCanvasElement): BABYLON.Scene {
-        // Créer une scène Babylon.js
-        const scene = new BABYLON.Scene(engine);
+    public static CreateScene(engine: Engine, canvas: HTMLCanvasElement): Scene {
+        // Créer une scène js
+        const scene = new Scene(engine);
 
         // Ajouter une caméra ArcRotate pour interagir avec le cube
-        const camera = new BABYLON.ArcRotateCamera(
+        const camera = new ArcRotateCamera(
             "Camera",
             Math.PI / 4,
             Math.PI / 3,
             20,
-            BABYLON.Vector3.Zero(),
+            Vector3.Zero(),
             scene
         );
 
         // Fixer la caméra au point d'origine
-        camera.setTarget(BABYLON.Vector3.Zero());
+        camera.setTarget(Vector3.Zero());
 
         // Permettre le contrôle de la caméra via la souris ou le tactile
         camera.attachControl(canvas, true);
 
         // Ajouter une lumière hémisphérique pour éclairer la scène
-        const light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
+        const light = new HemisphericLight("light1", new Vector3(0, 1, 0), scene);
         light.intensity = 0.7;
 
         // Créer les cubes du Rubik's Cube
@@ -31,7 +32,7 @@ export default class Rubiks {
         return scene;
     }
 
-    private static createRubikCubes(scene: BABYLON.Scene) {
+    private static createRubikCubes(scene: Scene) {
         const cubeSize = 1; // Taille d'un cube
         const spacing = 0.1; // Espace entre les cubes
 
@@ -42,7 +43,7 @@ export default class Rubiks {
         for (let x = 0; x < 3; x++) {
             for (let y = 0; y < 3; y++) {
                 for (let z = 0; z < 3; z++) {
-                    const box = BABYLON.MeshBuilder.CreateBox(
+                    const box = MeshBuilder.CreateBox(
                         `box-${x}-${y}-${z}`,
                         { size: cubeSize },
                         scene
@@ -58,23 +59,23 @@ export default class Rubiks {
         }
     }
 
-    private static createRubikMaterials(scene: BABYLON.Scene): BABYLON.StandardMaterial[] {
+    private static createRubikMaterials(scene: Scene): StandardMaterial[] {
         // Créer des matériaux pour chaque couleur
         const materials = {
-            white: new BABYLON.StandardMaterial("white", scene),
-            red: new BABYLON.StandardMaterial("red", scene),
-            blue: new BABYLON.StandardMaterial("blue", scene),
-            orange: new BABYLON.StandardMaterial("orange", scene),
-            green: new BABYLON.StandardMaterial("green", scene),
-            yellow: new BABYLON.StandardMaterial("yellow", scene),
+            white: new StandardMaterial("white", scene),
+            red: new StandardMaterial("red", scene),
+            blue: new StandardMaterial("blue", scene),
+            orange: new StandardMaterial("orange", scene),
+            green: new StandardMaterial("green", scene),
+            yellow: new StandardMaterial("yellow", scene),
         };
 
-        materials.white.diffuseColor = new BABYLON.Color3(1, 1, 1);
-        materials.red.diffuseColor = new BABYLON.Color3(1, 0, 0);
-        materials.blue.diffuseColor = new BABYLON.Color3(0, 0, 1);
-        materials.orange.diffuseColor = new BABYLON.Color3(1, 0.647, 0);
-        materials.green.diffuseColor = new BABYLON.Color3(0, 1, 0);
-        materials.yellow.diffuseColor = new BABYLON.Color3(1, 1, 0);
+        materials.white.diffuseColor = new Color3(1, 1, 1);
+        materials.red.diffuseColor = new Color3(1, 0, 0);
+        materials.blue.diffuseColor = new Color3(0, 0, 1);
+        materials.orange.diffuseColor = new Color3(1, 0.647, 0);
+        materials.green.diffuseColor = new Color3(0, 1, 0);
+        materials.yellow.diffuseColor = new Color3(1, 1, 0);
 
         return [
             materials.red,

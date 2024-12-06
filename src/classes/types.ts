@@ -1,5 +1,5 @@
-import * as BABYLON from "@babylonjs/core";
+import { Engine, Scene } from "@babylonjs/core";
 
 export interface SceneType {
-    CreateScene: (engine: BABYLON.Engine, canvas: HTMLCanvasElement) => BABYLON.Scene;
+    CreateScene: (engine: Engine, canvas: HTMLCanvasElement) => Scene;
 }

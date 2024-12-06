@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "preact/hooks";
 import { Scenes } from "../classes/exportScenes";
-import * as BABYLON from "@babylonjs/core";
 import { JSX } from "preact";
 import { useLocation } from "preact-iso";
+import { Engine } from "@babylonjs/core";
 
 export default function RenderScene(): JSX.Element {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -14,11 +14,14 @@ export default function RenderScene(): JSX.Element {
   useEffect(() => {
     if (!canvasRef.current) return;
 
-    // Initialiser Babylon.js avec le canvas
-    const engine = new BABYLON.Engine(canvasRef.current, true);
+    // Initialiser js avec le canvas
+    const engine = new Engine(canvasRef.current, true);
 
     // Charger la scène "First" depuis vos exports
-    const scene = Scenes[sceneName as keyof typeof Scenes].CreateScene(engine, canvasRef.current);
+    const scene = Scenes[sceneName as keyof typeof Scenes].CreateScene(
+      engine,
+      canvasRef.current
+    );
 
     // Lancer la boucle de rendu
     engine.runRenderLoop(() => {
