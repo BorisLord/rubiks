@@ -1,5 +1,6 @@
-import { Scenes } from "../classes/exportScenes";
 import { JSX } from "preact";
+
+import { Scenes } from "../classes/exportScenes";
 
 export default function DisplayScene(): JSX.Element {
   const sceneNames = Object.keys(Scenes);

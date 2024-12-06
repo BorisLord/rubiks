@@ -1,8 +1,9 @@
-import { useEffect, useRef } from "preact/hooks";
-import { Scenes } from "../classes/exportScenes";
-import { JSX } from "preact";
-import { useLocation } from "preact-iso";
 import { Engine } from "@babylonjs/core";
+import { JSX } from "preact";
+import { useEffect, useRef } from "preact/hooks";
+import { useLocation } from "preact-iso";
+
+import { Scenes } from "../classes/exportScenes";
 
 export default function RenderScene(): JSX.Element {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -39,10 +40,6 @@ export default function RenderScene(): JSX.Element {
   }, [sceneName]);
 
   return (
-    <canvas
-      id="renderCanvas"
-      ref={canvasRef}
-      className="w-full h-full block"
-    ></canvas>
+    <canvas id="renderCanvas" ref={canvasRef} className="w-full h-full block" />
   );
 }

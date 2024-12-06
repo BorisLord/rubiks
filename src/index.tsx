@@ -1,10 +1,10 @@
 import { render } from "preact";
-import { LocationProvider, Router, Route } from "preact-iso";
+import { LocationProvider, Route, Router } from "preact-iso";
 
 import { Header } from "./components/Header.jsx";
-import { Home } from "./pages/Scenes.js";
-import { NotFound } from "./pages/_404.jsx";
 import RenderScene from "./components/RenderScene.js";
+import { NotFound } from "./pages/_404.jsx";
+import { Home } from "./pages/Scenes.js";
 
 export function App() {
   return (
