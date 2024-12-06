@@ -26,7 +26,7 @@ export function Header() {
             className="hover:opacity-90 mt-1"
           >
             <img
-              src="src/assets/github-mark-white.svg"
+              src="/github-mark-white.svg"
               alt="GitHub Logo"
               className="w-8 h-8"
             />

@@ -1,6 +1,6 @@
 # `Kubik's`
 
-My experiement with [Babylon.js](https://github.com/BabylonJS/Babylon.js)
+My experiements with [Babylon.js](https://github.com/BabylonJS/Babylon.js)
 
 ## Getting Started
 
