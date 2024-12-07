@@ -9,13 +9,15 @@ export default function RenderScene(): JSX.Element {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const { query } = useLocation();
   const sceneName = query.scene;
-  console.log(sceneName);
-  console.log(canvasRef);
+  console.log("sceneName", sceneName);
+  console.log("CANVA", canvasRef);
 
   useEffect(() => {
-    if (!canvasRef.current) return;
+    if (!canvasRef.current) {
+      console.error("Canvas element is not ready.");
+      return;
+    }
 
-    // Initialiser js avec le canvas
     const engine = new Engine(canvasRef.current, true);
 
     // Charger la scène "First" depuis vos exports
