@@ -13,7 +13,7 @@ export function App() {
         <Header />
         <main>
           <Router>
-            <Route path="/" component={Home} />
+            <Route path="/rubiks" component={Home} />
             <Route path="/renderScene" component={RenderScene} />
             <Route default component={NotFound} />
           </Router>

@@ -1,6 +1,7 @@
 {
   "private": true,
   "type": "module",
+  "version": "0.0.3",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -8,7 +9,9 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "format": "prettier --check .",
-    "format:fix": "prettier --write ."
+    "format:fix": "prettier --write .",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@babylonjs/core": "^7.38.0",
@@ -21,9 +24,11 @@
     "autoprefixer": "^10.4.20",
     "eslint": "^8.57.1",
     "eslint-config-preact": "^1.5.0",
+    "gh-pages": "^6.2.0",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.16",
     "typescript": "^5.7.2",
     "vite": "^5.3.3"
-  }
+  },
+  "homepage": "https://borislord.github.io/rubiks/"
 }
