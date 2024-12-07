@@ -8,4 +8,9 @@ export default defineConfig({
   },
   plugins: [preact()],
   base: "/rubiks/",
+  server: {
+    hmr: {
+      overlay: true,
+    },
+  },
 });
