@@ -19,6 +19,7 @@
     "preact-iso": "^2.8.1"
   },
   "devDependencies": {
+    "@babylonjs/inspector": "^7.39.1",
     "@preact/preset-vite": "^2.9.0",
     "@types/react": "^19.0.0",
     "autoprefixer": "^10.4.20",

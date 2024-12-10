@@ -1,5 +1,7 @@
 # `Kubik's`
 
+Check projects [here](https://borislord.github.io/rubiks/)
+
 My experiements with [Babylon.js](https://github.com/BabylonJS/Babylon.js)
 
 ## Getting Started

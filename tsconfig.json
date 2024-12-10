@@ -1,16 +1,17 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
+    "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "bundler",
+    "esModuleInterop": true,
     "noEmit": true,
     "allowJs": true,
     "checkJs": true,
-    /* Strictness */
     "strict": true,
     // "noUncheckedIndexedAccess": true,
     // "noImplicitOverride": true,
     /* Preact Config */
+    "removeComments": true,
     "jsx": "react-jsx",
     "jsxImportSource": "preact",
     "skipLibCheck": true,
