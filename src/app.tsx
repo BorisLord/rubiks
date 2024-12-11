@@ -1,9 +1,11 @@
+import "./app.css";
+
 import { render } from "preact";
+import { Header } from "./components/Header.js";
+import { NotFound } from "./pages/_404.js";
 import { LocationProvider, Route, Router } from "preact-iso";
 
-import { Header } from "./components/Header.jsx";
 import RenderScene from "./components/RenderScene.js";
-import { NotFound } from "./pages/_404.jsx";
 import { Home } from "./pages/Scenes.js";
 
 export function App() {
