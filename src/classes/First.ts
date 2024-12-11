@@ -31,17 +31,17 @@ export default class First {
     const sphere = MeshBuilder.CreateSphere(
       "sphere",
       { diameter: 2, segments: 32 },
-      scene
+      scene,
     );
 
     // Move the sphere upward 1/2 its height
     sphere.position.y = 1;
 
     // Our built-in 'ground' shape. Params: name, options, scene
-    const ground = MeshBuilder.CreateGround(
+    const _ground = MeshBuilder.CreateGround(
       "ground",
       { width: 6, height: 6 },
-      scene
+      scene,
     );
 
     return scene;
