@@ -1,18 +1,17 @@
-// import "@babylonjs/core/Debug/debugLayer";
-// import "@babylonjs/inspector";
-import { useEffect, useRef } from "preact/hooks";
+import { useEffect, useRef, useState } from "preact/hooks";
 import { useLocation } from "preact-iso";
-
 import { JSX } from "preact";
-import { Engine } from "@babylonjs/core";
+import { Engine, Scene } from "@babylonjs/core";
+import "@babylonjs/core/Debug/debugLayer";
+import "@babylonjs/inspector";
 import { Scenes } from "../classes/exportScenes";
 
 export default function RenderScene(): JSX.Element {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const { query } = useLocation();
   const sceneName = query.scene;
-  // console.log("sceneName", sceneName);
-  // console.log("CANVA", canvasRef);
+  const [isLoading, setIsLoading] = useState(false);
+  const [scene, setScene] = useState<Scene | null>(null);
 
   useEffect(() => {
     if (!canvasRef.current) {
@@ -24,51 +23,81 @@ export default function RenderScene(): JSX.Element {
 
     if (!sceneName || !(sceneName in Scenes)) {
       console.error(`Scene "${sceneName}" not found in Scenes.`);
-      return;
-    }
-
-    let scene;
-    try {
-      // Charger la scène dynamiquement
-      scene = Scenes[sceneName as keyof typeof Scenes].CreateScene(
-        engine,
-        canvasRef.current,
-      );
-    } catch (error) {
-      console.error("Error creating scene:", error);
       engine.dispose();
       return;
     }
 
-    // Lancer la boucle de rendu
-    engine.runRenderLoop(() => {
-      scene.render();
-    });
+    setIsLoading(true);
+    let isMounted = true;
 
-    // hide/show the Inspector
-    window.addEventListener("keydown", (ev) => {
-      // Shift+Ctrl+Alt+I
-      if (ev.shiftKey && ev.ctrlKey && ev.altKey && ev.key === "I") {
-        if (scene.debugLayer.isVisible()) {
-          scene.debugLayer.hide();
-        } else {
-          scene.debugLayer.show();
+    // Charger la scène
+    const loadScene = async () => {
+      try {
+        const createSceneFn =
+          Scenes[sceneName as keyof typeof Scenes].CreateScene;
+        const loadedScene = await Promise.resolve(
+          createSceneFn(engine, canvasRef.current!)
+        );
+
+        if (isMounted) {
+          setScene(loadedScene);
+
+          // Lancer la boucle de rendu
+          engine.runRenderLoop(() => {
+            loadedScene.render();
+          });
         }
+      } catch (error) {
+        console.error("Error creating scene:", error);
+        engine.dispose();
+      } finally {
+        if (isMounted) setIsLoading(false);
       }
-    });
+    };
 
-    // Ajuster la taille du canvas en cas de redimensionnement de la fenêtre
+    loadScene();
+
+    // Gérer le redimensionnement
     window.addEventListener("resize", () => engine.resize());
 
-    // Cleanup à la destruction du composant
+    // Cleanup
     return () => {
+      isMounted = false;
       engine.dispose();
       window.removeEventListener("resize", () => engine.resize());
     };
   }, [sceneName]);
 
+  useEffect(() => {
+    const handleKeyDown = (ev: KeyboardEvent) => {
+      // Shift + Ctrl + Alt + I
+      if (ev.shiftKey && ev.ctrlKey && ev.altKey && ev.key === "I") {
+        if (scene) {
+          if (scene.debugLayer.isVisible()) {
+            scene.debugLayer.hide();
+          } else {
+            scene.debugLayer.show();
+          }
+        } else {
+          console.warn("Scene is not loaded yet to toggle the inspector.");
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [scene]);
+
   return (
-    <div>
+    <div className="relative w-full h-full">
+      {isLoading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white">
+          Loading...
+        </div>
+      )}
       <canvas
         id="renderCanvas"
         ref={canvasRef}
