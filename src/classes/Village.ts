@@ -3,12 +3,9 @@ import {
   Color3,
   Engine,
   HemisphericLight,
-  int,
   Mesh,
   MeshBuilder,
   Scene,
-  SceneLoader,
-  Sound,
   StandardMaterial,
   Texture,
   Vector3,
@@ -16,27 +13,6 @@ import {
 } from "@babylonjs/core";
 
 export default class Village {
-  // public static async CreateScene(
-  //   engine: Engine,
-  //   canvas: HTMLCanvasElement
-  // ): Promise<Scene> {
-  //   const scene = new Scene(engine);
-  //   const camera = new ArcRotateCamera(
-  //     "camera",
-  //     -Math.PI / 2,
-  //     Math.PI / 2.5,
-  //     15,
-  //     new Vector3(0, 0, 0)
-  //   );
-  //   camera.attachControl(canvas, true);
-  //   const light = new HemisphericLight("light", new Vector3(1, 1, 0));
-  //   const importMesh = SceneLoader.ImportMeshAsync(
-  //     "",
-  //     "https://assets.babylonjs.com/meshes/",
-  //     "village.glb"
-  //   );
-  //   return scene;
-  // }
   public static CreateScene(engine: Engine, canvas: HTMLCanvasElement): Scene {
     const scene = new Scene(engine);
     /**** Set camera and light *****/
@@ -48,14 +24,14 @@ export default class Village {
       new Vector3(0, 0, 0)
     );
     camera.attachControl(canvas, true);
-    const light = new HemisphericLight("light", new Vector3(1, 1, 0));
+    const _light = new HemisphericLight("light", new Vector3(1, 1, 0));
     buildDwellings();
     return scene;
   }
 }
 
 const buildDwellings = () => {
-  const ground = buildGround();
+  const _ground = buildGround();
   // const house = buildHouse(2);
 
   const detached_house = buildHouse(1)!;
@@ -91,9 +67,9 @@ const buildDwellings = () => {
   const houses = [];
   for (let i = 0; i < places.length; i++) {
     if (places[i][0] === 1) {
-      houses[i] = detached_house.createInstance("house" + i);
+      houses[i] = detached_house.createInstance(`house ${i}`);
     } else {
-      houses[i] = semi_house.createInstance("house" + i);
+      houses[i] = semi_house.createInstance(`house ${i}`);
     }
     houses[i].rotation.y = places[i][1];
     houses[i].position.x = places[i][2];
@@ -148,8 +124,8 @@ const buildBox = (width: number): Mesh => {
 
   /**** World Objects *****/
   const box = MeshBuilder.CreateBox("box", {
-    width: width,
-    faceUV: faceUV,
+    width,
+    faceUV,
     wrap: true,
   });
   box.material = boxMat;
@@ -212,3 +188,25 @@ const buildRoof = (width: number): Mesh => {
 //   const house2 = result.meshes[2];
 //   house2.position.y = 1;
 // });
+
+// public static async CreateScene(
+//   engine: Engine,
+//   canvas: HTMLCanvasElement
+// ): Promise<Scene> {
+//   const scene = new Scene(engine);
+//   const camera = new ArcRotateCamera(
+//     "camera",
+//     -Math.PI / 2,
+//     Math.PI / 2.5,
+//     15,
+//     new Vector3(0, 0, 0)
+//   );
+//   camera.attachControl(canvas, true);
+//   const light = new HemisphericLight("light", new Vector3(1, 1, 0));
+//   const importMesh = SceneLoader.ImportMeshAsync(
+//     "",
+//     "https://assets.babylonjs.com/meshes/",
+//     "village.glb"
+//   );
+//   return scene;
+// }
