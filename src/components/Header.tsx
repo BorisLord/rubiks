@@ -1,5 +1,4 @@
 import { useLocation } from "preact-iso";
-import githubLogo from "/src/assets/github-mark-white.svg";
 
 export function Header() {
   const { url } = useLocation();
@@ -7,7 +6,7 @@ export function Header() {
   return (
     <header className="w-full h-16 bg-purple-700 shadow-md">
       <div className="max-w-6xl mx-auto px-4 flex justify-between items-center h-full">
-        <a className="text-white text-xl font-bold hover:opacity-90">KubiK's</a>
+        <a className="text-white text-xl font-bold">KubiK's</a>
         <nav className="flex space-x-4">
           <a
             href="/rubiks/"
@@ -26,7 +25,11 @@ export function Header() {
             aria-label="GitHub Repository"
             className="hover:opacity-90 mt-1"
           >
-            <img src={githubLogo} alt="GitHub Logo" className="w-8 h-8" />
+            <img
+              src="./github-mark-white.svg"
+              alt="GitHub Logo"
+              className="w-8 h-8"
+            />
           </a>
           {/* <a
             href="/scenes"
