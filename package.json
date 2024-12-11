@@ -6,12 +6,9 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
-    "format": "prettier --check .",
-    "format:fix": "prettier --write .",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "lint": "eslint src --ext .ts,.tsx,.js,.jsx",
+    "lint:fix": "eslint src --ext .ts,.tsx,.js,.jsx --fix",
+    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,html}\""
   },
   "dependencies": {
     "@babylonjs/core": "^7.38.0",
@@ -21,15 +18,43 @@
   "devDependencies": {
     "@babylonjs/inspector": "^7.39.1",
     "@preact/preset-vite": "^2.9.0",
+    "@types/eslint__eslintrc": "^2.1.2",
+    "@types/eslint-config-prettier": "^6.11.3",
     "@types/react": "^19.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.18.0",
+    "@typescript-eslint/parser": "^8.18.0",
     "autoprefixer": "^10.4.20",
     "eslint": "^8.57.1",
     "eslint-config-preact": "^1.5.0",
-    "gh-pages": "^6.2.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-react": "^7.37.2",
+    "globals": "^15.13.0",
     "postcss": "^8.4.49",
+    "prettier": "3.4.2",
     "tailwindcss": "^3.4.16",
     "typescript": "^5.7.2",
     "vite": "^5.3.3"
   },
-  "homepage": "https://borislord.github.io/rubiks/"
+  "homepage": "https://borislord.github.io/rubiks/",
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "extends": [
+      "preact",
+      "plugin:@typescript-eslint/recommended"
+    ],
+    "rules": {
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        {
+          "vars": "all",
+          "args": "after-used",
+          "varsIgnorePattern": "^_"
+        }
+      ],
+      "no-unused-vars": "off"
+    }
+  }
 }

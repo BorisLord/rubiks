@@ -12,6 +12,7 @@ dist
 dist-ssr
 *.local
 src/assets/sound/
+public/sound
 
 # Editor directories and files
 .vscode/*
