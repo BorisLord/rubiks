@@ -19,9 +19,9 @@ export default class Rubiks {
       "Camera",
       Math.PI / 4,
       Math.PI / 3,
-      20,
+      20, 
       Vector3.Zero(),
-      scene,
+      scene
     );
 
     // Fixer la caméra au point d'origine
@@ -54,7 +54,7 @@ export default class Rubiks {
           const box = MeshBuilder.CreateBox(
             `box-${x}-${y}-${z}`,
             { size: cubeSize },
-            scene,
+            scene
           );
           box.position.x = (x - 1) * (cubeSize + spacing);
           box.position.y = (y - 1) * (cubeSize + spacing);

@@ -1,8 +1,7 @@
-import First from "./First";
-import Rubiks from "./Rubiks";
+import Demo from "./demo";
+import Rubiks from "./rubiks";
 import Village from "./Village";
 import Ball from "./ball";
-import Car from "./car";
 import { Engine, Scene } from "@babylonjs/core";
 
 interface SceneType {
@@ -15,7 +14,6 @@ interface SceneType {
 export const Scenes: Record<string, SceneType> = {
   Rubiks,
   Village,
-  First,
   Ball,
-  Car,
+  Demo,
 };
