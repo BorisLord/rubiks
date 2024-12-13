@@ -6,48 +6,56 @@ import {
   MeshBuilder,
   Scene,
   StandardMaterial,
+  TransformNode,
   Vector3,
+  PointerEventTypes,
 } from "@babylonjs/core";
 
 export default class Rubiks {
   public static CreateScene(engine: Engine, canvas: HTMLCanvasElement): Scene {
-    // Créer une scène js
     const scene = new Scene(engine);
 
-    // Ajouter une caméra ArcRotate pour interagir avec le cube
     const camera = new ArcRotateCamera(
       "Camera",
       Math.PI / 4,
       Math.PI / 3,
-      20, 
+      20,
       Vector3.Zero(),
       scene
     );
-
-    // Fixer la caméra au point d'origine
-    camera.setTarget(Vector3.Zero());
-
-    // Permettre le contrôle de la caméra via la souris ou le tactile
     camera.attachControl(canvas, true);
 
-    // Ajouter une lumière hémisphérique pour éclairer la scène
-    const light = new HemisphericLight("light1", new Vector3(0, 1, 0), scene);
-    light.intensity = 0.7;
+    const light1 = new HemisphericLight("light1", new Vector3(0, 1, 0), scene);
+    light1.diffuse = new Color3(1, 1, 1); // Lumière blanche
+    light1.specular = new Color3(0.5, 0.5, 0.5); // Réflexion douce
+    light1.groundColor = new Color3(0.1, 0.1, 0.1); // Légère lumière venant du bas
 
-    // Créer les cubes du Rubik's Cube
-    Rubiks.createRubikCubes(scene);
+    const light2 = new HemisphericLight(
+      "light2",
+      new Vector3(-1, -1, -1),
+      scene
+    );
+    light2.diffuse = new Color3(0.6, 0.6, 0.8); // Lumière légèrement bleutée
+    light2.specular = new Color3(0.3, 0.3, 0.3); // Réflexion douce
+    light2.groundColor = new Color3(0.2, 0.2, 0.3); // Légère lumière venant du bas
+
+    // Créer les cubes et récupérer le noeud pour la face avant
+    const frontFaceNode = Rubiks.createRubikCubes(scene);
+
+    // Ajouter un gestionnaire d'événements pour la souris
+    Rubiks.addMouseInteraction(scene, frontFaceNode);
 
     return scene;
   }
 
-  private static createRubikCubes(scene: Scene) {
-    const cubeSize = 1; // Taille d'un cube
-    const spacing = 0.1; // Espace entre les cubes
+  private static createRubikCubes(scene: Scene): TransformNode {
+    const cubeSize = 1;
+    const spacing = 0.1;
 
-    // Créer des matériaux de couleur pour les faces du Rubik's Cube
     const colors = Rubiks.createRubikMaterials(scene);
 
-    // Générer une grille 3x3x3 de cubes
+    const frontFaceNode = new TransformNode("frontFaceNode", scene);
+
     for (let x = 0; x < 3; x++) {
       for (let y = 0; y < 3; y++) {
         for (let z = 0; z < 3; z++) {
@@ -60,15 +68,64 @@ export default class Rubiks {
           box.position.y = (y - 1) * (cubeSize + spacing);
           box.position.z = (z - 1) * (cubeSize + spacing);
 
-          // Assigner une couleur de matériau aux cubes
           box.material = colors[(x * 3 + y + z) % colors.length];
+
+          // Attachez les cubes de la face avant au noeud frontFaceNode
+          if (z === 2) {
+            box.parent = frontFaceNode;
+          }
         }
       }
     }
+
+    return frontFaceNode;
+  }
+
+  private static addMouseInteraction(
+    scene: Scene,
+    frontFaceNode: TransformNode
+  ) {
+    let isRotating = false; // Indicateur pour savoir si une rotation est en cours
+
+    scene.onPointerObservable.add((pointerInfo) => {
+      if (pointerInfo.type === PointerEventTypes.POINTERDOWN) {
+        // Déclencher la rotation au clic gauche
+        if (pointerInfo.event.button === 0 && !isRotating) {
+          isRotating = true;
+          Rubiks.rotateFrontFace(frontFaceNode, () => {
+            isRotating = false; // Réinitialiser l'indicateur après la rotation
+          });
+        }
+      }
+    });
+  }
+
+  private static rotateFrontFace(
+    frontFaceNode: TransformNode,
+    onComplete: () => void
+  ) {
+    const totalRotation = Math.PI / 2; // Rotation de 90 degrés
+    const rotationSpeed = 0.1; // Vitesse de rotation
+    let accumulatedRotation = 0;
+
+    const scene = frontFaceNode.getScene();
+
+    const rotationObserver = scene.onBeforeRenderObservable.add(() => {
+      const step = (rotationSpeed * scene.getEngine().getDeltaTime()) / 16; // Ajuster par rapport au temps réel
+      frontFaceNode.rotation.z += step;
+      accumulatedRotation += step;
+
+      if (accumulatedRotation >= totalRotation) {
+        // Limiter à 90 degrés et arrêter la rotation
+        frontFaceNode.rotation.z =
+          Math.round(frontFaceNode.rotation.z / totalRotation) * totalRotation;
+        scene.onBeforeRenderObservable.remove(rotationObserver);
+        onComplete();
+      }
+    });
   }
 
   private static createRubikMaterials(scene: Scene): StandardMaterial[] {
-    // Créer des matériaux pour chaque couleur
     const materials = {
       white: new StandardMaterial("white", scene),
       red: new StandardMaterial("red", scene),
@@ -81,7 +138,7 @@ export default class Rubiks {
     materials.white.diffuseColor = new Color3(1, 1, 1);
     materials.red.diffuseColor = new Color3(1, 0, 0);
     materials.blue.diffuseColor = new Color3(0, 0, 1);
-    materials.orange.diffuseColor = new Color3(1, 0.647, 0);
+    materials.orange.diffuseColor = new Color3(1, 0.55, 0);
     materials.green.diffuseColor = new Color3(0, 1, 0);
     materials.yellow.diffuseColor = new Color3(1, 1, 0);
 
