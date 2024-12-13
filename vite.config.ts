@@ -8,7 +8,6 @@ export default defineConfig({
     outDir: "dist",
   },
   plugins: [preact(), tailwindcss()],
-  base: "/rubiks/",
   server: {
     hmr: {
       overlay: true,

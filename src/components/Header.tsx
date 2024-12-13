@@ -9,9 +9,9 @@ export function Header() {
         <a className="text-white text-xl font-bold">KubiK's</a>
         <nav className="flex space-x-4">
           <a
-            href="/rubiks/"
+            href="/"
             className={`text-white px-3 py-2 rounded-md ${
-              url === "/rubiks/"
+              url === "/"
                 ? "bg-black/80"
                 : "hover:bg-black/50 transition-colors duration-200"
             }`}

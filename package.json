@@ -38,7 +38,7 @@
     "typescript": "^5.7.2",
     "vite": "^5.3.3"
   },
-  "homepage": "https://borislord.github.io/rubiks/",
+  "homepage": "https://borislord.github.io/",
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",
     "plugins": [
