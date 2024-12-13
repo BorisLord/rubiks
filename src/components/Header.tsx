@@ -9,9 +9,9 @@ export function Header() {
         <a className="text-white text-xl font-bold">KubiK's</a>
         <nav className="flex space-x-4">
           <a
-            href="/"
+            href="/rubiks"
             className={`text-white px-3 py-2 rounded-md ${
-              url === "/"
+              url === "/rubiks"
                 ? "bg-black/80"
                 : "hover:bg-black/50 transition-colors duration-200"
             }`}
@@ -26,7 +26,7 @@ export function Header() {
             className="hover:opacity-90 mt-1"
           >
             <img
-              src="./github-mark-white.svg"
+              src="/github-mark-white.svg"
               alt="GitHub Logo"
               className="w-8 h-8"
             />

@@ -8,7 +8,7 @@ export function NotFound() {
         Oops! The page you're looking for doesn't exist.
       </p>
       <a
-        href="/"
+        href="/rubiks"
         className="px-6 py-3 bg-purple-700 text-white rounded-lg hover:bg-purple-800 transition-colors duration-200"
       >
         Go Back Home

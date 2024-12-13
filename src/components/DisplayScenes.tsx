@@ -14,7 +14,7 @@ export default function DisplayScene(): JSX.Element {
             className="text-center rounded-sm ring ring-gray-400 p-4 hover:shadow-lg"
           >
             <a
-              href={`/renderScene?scene=${sceneName}`}
+              href={`/rubiks/renderScene?scene=${sceneName}`}
               className="text-lg font-medium text-blue-600 hover:underline"
             >
               {sceneName}
