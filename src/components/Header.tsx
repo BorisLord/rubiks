@@ -1,4 +1,5 @@
 import { useLocation } from "preact-iso";
+import githubLogo from "/github-mark-white.svg";
 
 export function Header() {
   const { url } = useLocation();
@@ -25,11 +26,7 @@ export function Header() {
             aria-label="GitHub Repository"
             className="hover:opacity-90 mt-1"
           >
-            <img
-              src="/github-mark-white.svg"
-              alt="GitHub Logo"
-              className="w-8 h-8"
-            />
+            <img src={githubLogo} alt="GitHub Logo" className="w-8 h-8" />
           </a>
           {/* <a
             href="/scenes"

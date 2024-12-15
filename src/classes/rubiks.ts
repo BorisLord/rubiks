@@ -9,6 +9,7 @@ import {
   TransformNode,
   Vector3,
   PointerEventTypes,
+  DynamicTexture,
 } from "@babylonjs/core";
 
 export default class Rubiks {
@@ -43,7 +44,7 @@ export default class Rubiks {
     const frontFaceNode = Rubiks.createRubikCubes(scene);
 
     // Ajouter un gestionnaire d'événements pour la souris
-    Rubiks.addMouseInteraction(scene, frontFaceNode);
+    // Rubiks.addMouseInteraction(scene, frontFaceNode);
 
     return scene;
   }
@@ -51,6 +52,7 @@ export default class Rubiks {
   private static createRubikCubes(scene: Scene): TransformNode {
     const cubeSize = 1;
     const spacing = 0.1;
+    let cubeNumber = 1; // Compteur pour numéroter chaque cube
 
     const colors = Rubiks.createRubikMaterials(scene);
 
@@ -64,16 +66,45 @@ export default class Rubiks {
             { size: cubeSize },
             scene
           );
+
           box.position.x = (x - 1) * (cubeSize + spacing);
           box.position.y = (y - 1) * (cubeSize + spacing);
           box.position.z = (z - 1) * (cubeSize + spacing);
+          // box.add text to face on cube
+          // Matériau avec numéro
+          const dynamicTexture = new DynamicTexture(
+            `dynamicTexture-${cubeNumber}`,
+            256,
+            scene,
+            false
+          );
+          dynamicTexture.drawText(
+            cubeNumber.toString(), // Numéro du cube
+            null, // Centrer automatiquement sur l'axe X
+            128, // Centrer verticalement
+            "bold 48px Arial", // Style de texte
+            "white", // Couleur du texte
+            "black", // Couleur de fond
+            true // Mettre à jour automatiquement
+          );
 
-          box.material = colors[(x * 3 + y + z) % colors.length];
+          const textMaterial = new StandardMaterial(
+            `textMaterial-${cubeNumber}`,
+            scene
+          );
+          textMaterial.diffuseTexture = dynamicTexture;
 
-          // Attachez les cubes de la face avant au noeud frontFaceNode
-          if (z === 2) {
-            box.parent = frontFaceNode;
-          }
+          box.material = textMaterial;
+
+          cubeNumber++;
+          // box.material = colors[(x * 3 + y + z) % colors.length];
+
+          // Appliquer le matériau au cube
+
+          // // Attachez les cubes de la face avant au noeud frontFaceNode
+          // if (z === 2) {
+          //   box.parent = frontFaceNode;
+          // }
         }
       }
     }
@@ -135,12 +166,12 @@ export default class Rubiks {
       yellow: new StandardMaterial("yellow", scene),
     };
 
-    materials.white.diffuseColor = new Color3(1, 1, 1);
-    materials.red.diffuseColor = new Color3(1, 0, 0);
-    materials.blue.diffuseColor = new Color3(0, 0, 1);
+    materials.white.diffuseColor = Color3.White();
+    materials.red.diffuseColor = Color3.Red();
+    materials.blue.diffuseColor = Color3.Blue();
     materials.orange.diffuseColor = new Color3(1, 0.55, 0);
-    materials.green.diffuseColor = new Color3(0, 1, 0);
-    materials.yellow.diffuseColor = new Color3(1, 1, 0);
+    materials.green.diffuseColor = Color3.Green();
+    materials.yellow.diffuseColor = Color3.Yellow();
 
     return [
       materials.red,
