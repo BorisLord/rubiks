@@ -20,7 +20,7 @@ export default class Car {
       -Math.PI / 2,
       Math.PI / 2.5,
       3,
-      new Vector3(0, 0, 0)
+      new Vector3(0, 0, 0),
     );
     camera.attachControl(canvas, true);
     const _light = new HemisphericLight("light", new Vector3(0, 1, 0));
@@ -41,8 +41,8 @@ const buildCar = () => {
       new Vector3(
         0.2 * Math.cos((i * Math.PI) / 40),
         0,
-        0.2 * Math.sin((i * Math.PI) / 40) - 0.1
-      )
+        0.2 * Math.sin((i * Math.PI) / 40) - 0.1,
+      ),
     );
   }
 
@@ -61,7 +61,7 @@ const buildCar = () => {
   //car material
   const carMat = new StandardMaterial("carMat");
   carMat.diffuseTexture = new Texture(
-    "https://assets.babylonjs.com/environments/car.png"
+    "https://assets.babylonjs.com/environments/car.png",
   );
 
   const car = MeshBuilder.ExtrudePolygon(
@@ -73,7 +73,7 @@ const buildCar = () => {
       wrap: true,
     },
     undefined,
-    earcut
+    earcut,
   );
   car.material = carMat;
 
@@ -86,7 +86,7 @@ const buildCar = () => {
   //car material
   const wheelMat = new StandardMaterial("wheelMat");
   wheelMat.diffuseTexture = new Texture(
-    "https://assets.babylonjs.com/environments/wheel.png"
+    "https://assets.babylonjs.com/environments/wheel.png",
   );
 
   const wheelRB = MeshBuilder.CreateCylinder("wheelRB", {

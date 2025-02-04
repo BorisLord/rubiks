@@ -1,8 +1,6 @@
 # `Kubik's`
 
-My experiements with <a href="https://github.com/BabylonJS/Babylon.js" target="_blank">Babylon.js</a>
-
-Check projects <a href="https://borislord.github.io/" target="_blank">here</a>
+My experiements with <a href="https://borislord.github.io/rubiks/" target="_blank">Babylon.js</a>
 
 ## Getting Started
 

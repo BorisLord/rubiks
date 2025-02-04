@@ -9,7 +9,6 @@ import {
   TransformNode,
   Vector3,
   PointerEventTypes,
-  DynamicTexture,
 } from "@babylonjs/core";
 
 export default class Rubiks {
@@ -22,7 +21,7 @@ export default class Rubiks {
       Math.PI / 3,
       20,
       Vector3.Zero(),
-      scene
+      scene,
     );
     camera.attachControl(canvas, true);
 
@@ -34,14 +33,15 @@ export default class Rubiks {
     const light2 = new HemisphericLight(
       "light2",
       new Vector3(-1, -1, -1),
-      scene
+      scene,
     );
     light2.diffuse = new Color3(0.6, 0.6, 0.8); // Lumière légèrement bleutée
     light2.specular = new Color3(0.3, 0.3, 0.3); // Réflexion douce
     light2.groundColor = new Color3(0.2, 0.2, 0.3); // Légère lumière venant du bas
 
     // Créer les cubes et récupérer le noeud pour la face avant
-    const frontFaceNode = Rubiks.createRubikCubes(scene);
+    Rubiks.createRubikCubes(scene);
+    // const frontFaceNode = Rubiks.createRubikCubes(scene);
 
     // Ajouter un gestionnaire d'événements pour la souris
     // Rubiks.addMouseInteraction(scene, frontFaceNode);
@@ -52,7 +52,6 @@ export default class Rubiks {
   private static createRubikCubes(scene: Scene): TransformNode {
     const cubeSize = 1;
     const spacing = 0.1;
-    let cubeNumber = 1; // Compteur pour numéroter chaque cube
 
     const colors = Rubiks.createRubikMaterials(scene);
 
@@ -64,47 +63,18 @@ export default class Rubiks {
           const box = MeshBuilder.CreateBox(
             `box-${x}-${y}-${z}`,
             { size: cubeSize },
-            scene
+            scene,
           );
 
           box.position.x = (x - 1) * (cubeSize + spacing);
           box.position.y = (y - 1) * (cubeSize + spacing);
           box.position.z = (z - 1) * (cubeSize + spacing);
-          // box.add text to face on cube
-          // Matériau avec numéro
-          const dynamicTexture = new DynamicTexture(
-            `dynamicTexture-${cubeNumber}`,
-            256,
-            scene,
-            false
-          );
-          dynamicTexture.drawText(
-            cubeNumber.toString(), // Numéro du cube
-            null, // Centrer automatiquement sur l'axe X
-            128, // Centrer verticalement
-            "bold 48px Arial", // Style de texte
-            "white", // Couleur du texte
-            "black", // Couleur de fond
-            true // Mettre à jour automatiquement
-          );
 
-          const textMaterial = new StandardMaterial(
-            `textMaterial-${cubeNumber}`,
-            scene
-          );
-          textMaterial.diffuseTexture = dynamicTexture;
+          box.material = colors[(x * 3 + y + z) % colors.length];
 
-          box.material = textMaterial;
-
-          cubeNumber++;
-          // box.material = colors[(x * 3 + y + z) % colors.length];
-
-          // Appliquer le matériau au cube
-
-          // // Attachez les cubes de la face avant au noeud frontFaceNode
-          // if (z === 2) {
-          //   box.parent = frontFaceNode;
-          // }
+          if (z === 2) {
+            box.parent = frontFaceNode;
+          }
         }
       }
     }
@@ -114,17 +84,16 @@ export default class Rubiks {
 
   private static addMouseInteraction(
     scene: Scene,
-    frontFaceNode: TransformNode
+    frontFaceNode: TransformNode,
   ) {
-    let isRotating = false; // Indicateur pour savoir si une rotation est en cours
+    let isRotating = false;
 
     scene.onPointerObservable.add((pointerInfo) => {
       if (pointerInfo.type === PointerEventTypes.POINTERDOWN) {
-        // Déclencher la rotation au clic gauche
         if (pointerInfo.event.button === 0 && !isRotating) {
           isRotating = true;
           Rubiks.rotateFrontFace(frontFaceNode, () => {
-            isRotating = false; // Réinitialiser l'indicateur après la rotation
+            isRotating = false;
           });
         }
       }
@@ -133,21 +102,20 @@ export default class Rubiks {
 
   private static rotateFrontFace(
     frontFaceNode: TransformNode,
-    onComplete: () => void
+    onComplete: () => void,
   ) {
-    const totalRotation = Math.PI / 2; // Rotation de 90 degrés
-    const rotationSpeed = 0.1; // Vitesse de rotation
+    const totalRotation = Math.PI / 2;
+    const rotationSpeed = 0.1;
     let accumulatedRotation = 0;
 
     const scene = frontFaceNode.getScene();
 
     const rotationObserver = scene.onBeforeRenderObservable.add(() => {
-      const step = (rotationSpeed * scene.getEngine().getDeltaTime()) / 16; // Ajuster par rapport au temps réel
+      const step = (rotationSpeed * scene.getEngine().getDeltaTime()) / 16;
       frontFaceNode.rotation.z += step;
       accumulatedRotation += step;
 
       if (accumulatedRotation >= totalRotation) {
-        // Limiter à 90 degrés et arrêter la rotation
         frontFaceNode.rotation.z =
           Math.round(frontFaceNode.rotation.z / totalRotation) * totalRotation;
         scene.onBeforeRenderObservable.remove(rotationObserver);

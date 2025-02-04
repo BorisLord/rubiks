@@ -28,16 +28,6 @@ export function Header() {
           >
             <img src={githubLogo} alt="GitHub Logo" className="w-8 h-8" />
           </a>
-          {/* <a
-            href="/scenes"
-            className={`text-white px-3 py-2 rounded-md ${
-              url === "/scenes"
-                ? "bg-black/80"
-                : "hover:bg-black/50 transition-colors duration-200"
-            }`}
-          >
-            Scenes
-          </a> */}
         </nav>
       </div>
     </header>

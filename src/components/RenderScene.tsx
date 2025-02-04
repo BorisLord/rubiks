@@ -36,7 +36,7 @@ export default function RenderScene(): JSX.Element {
         const createSceneFn =
           Scenes[sceneName as keyof typeof Scenes].CreateScene;
         const loadedScene = await Promise.resolve(
-          createSceneFn(engine, canvasRef.current!)
+          createSceneFn(engine, canvasRef.current!),
         );
 
         if (isMounted) {
@@ -57,10 +57,8 @@ export default function RenderScene(): JSX.Element {
 
     loadScene();
 
-    // Gérer le redimensionnement
     window.addEventListener("resize", () => engine.resize());
 
-    // Cleanup
     return () => {
       isMounted = false;
       engine.dispose();

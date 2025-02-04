@@ -31,7 +31,7 @@ export default class Demo {
     const sphere = MeshBuilder.CreateSphere(
       "sphere",
       { diameter: 2, segments: 32 },
-      scene
+      scene,
     );
 
     // Move the sphere upward 1/2 its height
@@ -41,7 +41,7 @@ export default class Demo {
     const _ground = MeshBuilder.CreateGround(
       "ground",
       { width: 6, height: 6 },
-      scene
+      scene,
     );
 
     return scene;
